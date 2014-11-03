@@ -1,4 +1,4 @@
-When I worked at Twitter I often received the complaint that my code was too sophisticated and my colleauges couldn't review it. That was definitely bullshit. They *could* review my code -- they were just being lazy.
+When I worked at Twitter I often received the complaint that my code was too sophisticated and my colleagues couldn't review it. That was definitely bullshit. They *could* review my code -- they were just being lazy.
 
 But software engineers are supposed to be lazy, so we just have to accept and enjoy laziness.
 
