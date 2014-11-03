@@ -23,6 +23,3 @@ I think it can be done fairly straight forwardly by developing several component
 
 1. The better-code-review compiler will read in a source code project, and produce a Sidenote project as output
 2. A better-code-review.js will be a Sidenote plugin. It will probably depend on sidenote.js). It will add all the features to Sidenote that are necessary to create the better-code-review reviewer experience.
-
-
-
