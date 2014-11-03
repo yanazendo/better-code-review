@@ -3,6 +3,15 @@ Better Code Review
 
 Makes it enjoyable for lazy engineers to review sophisticated code.
 
+## Demo and homepage
+
+[http://bettercodereview.org](http://bettercodereview.org)
+
+## Engineering methodology
+
+To develo Better Code Review I am using a novel engineering methodology. If you are interested in collaborating, please review this methodology [here](http://bettercodereview.org/#0#3#main:Top#development-method:engineering%20methodology).
+
+
 ## Feature requests
 
 1. Modify the pyalgebra demo so that hyperlinks are underlined on hover

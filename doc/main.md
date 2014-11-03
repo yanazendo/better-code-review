@@ -25,7 +25,7 @@ I am developing Better Code Review using a novel engineering methodology based o
 2. Sufficiently inspired developers submit pull requests and we collaborate.
     - If you would like me to pay you for your pull request, don't send it right away. Rather, file an issue explaining your pull request and we can negotiate compensation from there.
 
-The specs for Better Code review are located [here](http://github.com).
+The specs for Better Code review are located [here](http://bettercodereview.org).
 
 ~sidenote
 ## Sidenote
