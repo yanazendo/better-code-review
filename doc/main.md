@@ -22,8 +22,8 @@ Maintainer: <a href="http://yanazendo.org">Yana Zendo</a>
 I am developing Better Code Review using a novel engineering methodology based on my personal laziness:
 
 1. I publish the specifications for a project on github
-2. Sufficiently inspired developers submit pull requests and we collaborate.
-    - If you would like me to pay you for your pull request, don't send it right away. Rather, file an issue explaining your pull request and we can negotiate compensation from there.
+2. Sufficiently inspired developers collaborate by [filing issues and submitting pull requests](https://github.com/yanazendo/better-code-review).
+    - If you would like me to pay you for your pull request, don't send it right away. Rather, file an issue explaining your planned pull request and we can negotiate from there.
 
 The specs for Better Code review are located [here](http://bettercodereview.org).
 

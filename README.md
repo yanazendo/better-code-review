@@ -9,7 +9,7 @@ Makes it enjoyable for lazy engineers to review sophisticated code.
 
 ## Engineering methodology
 
-To develo Better Code Review I am using a novel engineering methodology. If you are interested in collaborating, please review this methodology [here](http://bettercodereview.org/#0#3#main:Top#development-method:engineering%20methodology).
+To develop Better Code Review I am using a novel engineering methodology. If you are interested in collaborating, please review this methodology [here](http://bettercodereview.org/#0#3#main:Top#development-method:engineering%20methodology).
 
 
 ## Feature requests
