@@ -1,0 +1,467 @@
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+  <head>
+    
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/jquery-1.10.1.js"></script>
+    <script src="js/d3.v3.js"></script>
+    <script src="js/lodash.js"></script>
+    <script src="js/sidenote.js"></script>
+  </head>
+  <body>
+    <div class="btn-group addRemoveColumn">
+      <button class="btn"><a href="javascript:Sidenote.more()">more columns</a></button>
+      <button class="btn"><a href="javascript:Sidenote.less()">fewer columns</a></button>
+    </div>
+    <div class="headerbox">
+<h1>Better Code Review</h1>
+    </div>
+    <ul id="breadcrumbs" class="breadcrumb"></ul>
+    <div id='column-container'>
+      <a href="javascript:Sidenote.goBack()"><img id="left-arrow" class="hide-arrow" src="img/left_arrow.png"></a>
+      <a href="javascript:Sidenote.goForward()"><img id="right-arrow" class="hide-arrow" src="img/right_arrow.png"></a>
+      <div class='column' id="column0"></div>
+    </div>
+    <div class="content-storage">
+<div id='pya-examples'>
+<h2>Examples</h2>
+<pre><code data-language="python" class="rainbow"><a href="
+javascript:Sidenote.openColumnLoud('#pya-examples','#pya-examples-comment','Dummy Comment')" style="color: inherit; text-decoration: inherit">assert 3 == plus(1, 2)
+assert [1,2,3] == plus([1], [2, 3])
+assert <span class="support function python">set</span>([1,2,3]) == plus(<span class="support function python">set</span>([1, 2]), <span class="support function python">set</span>([2, 3]))
+assert {"a": 3} == plus({"a": 1}, {"a": 2})
+assert {"a": 3, 0:1} == plus({"a": 1, 0:1}, {"a": 2})
+assert {"a": 3, 0:1} == plus({"a": 1}, {"a": 2, 0:1})
+assert {"a": [1,2,3], "b": 1} == plus(
+    {
+        "a": [1,2],
+        "b": 1
+    },
+    {
+        "a": [3]
+    })
+assert {"a": [1,2,3], "b": 1} == plus(
+    {
+        "a": [1],
+    },
+    {
+        "a": [2,3],
+        "b": 1
+    })
+
+left = {
+    "a": 1,
+    "b": ["x", "y", "z"],
+    "c": {
+        "a": <span class="support function python">set</span>([1,2,3]),
+        "b": 1
+    },
+    "q": 3,
+    "x": 5
+}
+
+right = {
+    "a": 3,
+    "b": [1,2,3],
+    "c": {
+        "a": <span class="support function python">set</span>([1,2,5,6]),
+        "b": 7,
+        "d": 3
+    },
+    "p": 5,
+    "x": -5
+}
+
+combined = {
+    "a": 4,
+    "b": ["x", "y", "z", 1, 2, 3],
+    "c": {
+        "a": <span class="support function python">set</span>([1,2,3,5,6]),
+        "b": 8,
+        "d": 3
+    },
+    "q": 3,
+    "p": 5
+}
+
+assert plus(left, right) == combined
+
+assert <span class="constant language">None</span> == total([])
+assert 1 == total([1])
+assert [1,2,3,4,5] == total([[1], [2,3], [4,5]])
+</a>
+</code></pre>
+</div>
+
+<div id='pya-getMonoid'>
+<pre><code data-language="python" class="rainbow"><span class="storage function">def</span> <span class="entity name function">getMonoid</span>(x, y = <span class="constant language">None</span>, monoids = __MONOIDS__):</code></pre>
+
+<h3>Returns</h3>
+<p>the monoid for the datatype <code data-language="python" class="rainbow">x</code>.</p>
+<h3>Arguments</h3>
+<ul>
+<li><code data-language="python" class="rainbow">x</code> is a datatype such as <code data-language="python" class="rainbow">int</code>, <code data-language="python" class="rainbow">list</code>, or <code data-language="python" class="rainbow">dict</code></li>
+<li><code data-language="python" class="rainbow">y</code> is either <code data-language="python" class="rainbow">None</code> or a datatype such as <code data-language="python" class="rainbow">int</code>, <code data-language="python" class="rainbow">list</code>, or <code data-language="python" class="rainbow">dict</code>.<ul>
+<li>If <code data-language="python" class="rainbow">y</code> is not <code data-language="python" class="rainbow">None</code> then it should be equivalent to <code data-language="python" class="rainbow">x</code>. To be precise, equivalence here means that the monoid associated with <code data-language="python" class="rainbow">y</code> should be the same as the monoid associated with <code data-language="python" class="rainbow">x</code>.</li>
+</ul>
+</li>
+</ul>
+<h3>Note</h3>
+<p>Read <a href="javascript:Sidenote.openColumnLoud('#pya-getMonoid','#pya-monoids-general','this explanation')">this explanation</a> if you&#8217;re not already familiar with the concept of <em>monoids</em> in general.</p>
+</div>
+
+<div id='pya-dict'>
+<h2>Dictionaries</h2>
+<pre><code data-language="python" class="rainbow"># Warning: plus modifies either x or y (whichever <span class="keyword">is</span> bigger)
+<span class="storage class">class</span> <span class="entity name class">DictMonoid</span>(<span class="entity other inherited-class">Monoid</span>):
+    <span class="storage function">def</span> <span class="entity name function">zero</span>(<span class="variable self">self</span>): return {}
+    <span class="storage function">def</span> <span class="entity name function">plus</span>(<span class="variable self">self</span>, x, y, monoids = __MONOIDS__):
+        if <span class="support function python">len</span>(x) &gt; <span class="support function python">len</span>(y):
+            bigger, smaller = x, y
+            bigOnLeft = <span class="constant language">True</span>
+        else:
+            bigger, smaller = y, x
+            bigOnLeft = <span class="constant language">False</span>
+        for k, v <span class="keyword">in</span> smaller.iteritems():
+            if k <span class="keyword">not</span> <span class="keyword">in</span> bigger:
+                bigger[k] = v
+            else:
+                if bigOnLeft:
+                    left = bigger[k]
+                    right = v
+                else:
+                    left = v
+                    right = bigger[k]
+
+                subMonoid = getMonoid(left, right, monoids)
+                newV = subMonoid.plus(left, right, monoids)
+                if subMonoid.isNonZero(newV):
+                    bigger[k] = newV
+                else:
+                    <span class="keyword">del</span> bigger[k]
+        return bigger
+__MONOIDS__[dict] = DictMonoid()
+</code></pre>
+</div>
+
+<div id='pya-class-monoid'>
+<pre><code data-language="python" class="rainbow"><span class="storage class">class</span> <span class="entity name class">Monoid</span>(<span class="entity other inherited-class">object</span>):</code></pre>
+
+<p><code data-language="python" class="rainbow">Monoid</code> is an abstract base class.</p>
+<p>Concrete subclasses should implement sensible <code data-language="python" class="rainbow">zero</code> and <code data-language="python" class="rainbow">plus</code> methods for a specific datatype.</p>
+<p>The methods are considered sensible if, and only if:</p>
+<ol>
+<li>For any <code data-language="python" class="rainbow">x</code>, <code data-language="python" class="rainbow">y</code>, and <code data-language="python" class="rainbow">z</code> from the datatype, <pre><code data-language="python" class="rainbow">plus(plus(x, y), z) == plus(x, plus(y, z))</code></pre></li>
+<li>For any <code data-language="python" class="rainbow">x</code> from the datatype, <pre><code data-language="python" class="rainbow">plus(zero(), x) == plus(x, zero()) == x</code> </pre></li>
+</ol>
+<h3>Concrete subclasses</h3>
+<ul>
+<li><a href="javascript:Sidenote.openColumnLoud('#pya-class-monoid','#pya-int','IntMonoid')">IntMonoid</a></li>
+<li><a href="javascript:Sidenote.openColumnLoud('#pya-class-monoid','#pya-list','ListMonoid')">ListMonoid</a></li>
+<li><a href="javascript:Sidenote.openColumnLoud('#pya-class-monoid','#pya-set','SetMonoid')">SetMonoid</a></li>
+<li><a href="javascript:Sidenote.openColumnLoud('#pya-class-monoid','#pya-dict','DictMonoid')">DictMonoid</a></li>
+</ul>
+<h3>Note</h3>
+<p>Read <a href="javascript:Sidenote.openColumnLoud('#pya-class-monoid','#pya-monoids-general','this explanation')">this explanation</a> if you&#8217;re not already familiar with the concept of <em>monoids</em> in general.</p>
+</div>
+
+<div id='pya-monoids'>
+<pre><code data-language="python" class="rainbow">__MONOIDS__</code></pre>
+
+<p><tt data-language="python" class="rainbow"><code>__MONOIDS__</code></tt> is a dict that maps each supported datatype to an instance of the monoid for that datatype.</p>
+<h3>Note</h3>
+<p>Read <a href="javascript:Sidenote.openColumnLoud('#pya-monoids','#pya-monoids-general','this explanation')">this explanation</a> if you&#8217;re not already familiar with the concept of <em>monoids</em> in general.</p>
+</div>
+
+<div id='development-method'>
+<h2>Engineering methodology</h2>
+<p>I am developing Better Code Review using a novel engineering methodology based on my personal laziness:</p>
+<ol>
+<li>I publish the specifications for a project on github</li>
+<li>Sufficiently inspired developers submit pull requests and we collaborate.<ul>
+<li>If you would like me to pay you for your pull request, don&#8217;t send it right away. Rather, file an issue explaining your pull request and we can negotiate compensation from there.</li>
+</ul>
+</li>
+</ol>
+<p>The specs for Better Code review are located <a href="http://github.com">here</a>.</p>
+</div>
+
+<div id='pyalgebra'>
+<h2>Pyalgebra.py</h2>
+<p>Download <a href="https://raw.githubusercontent.com/mikegagnon/pyalgebra/master/pyalgebra.py">pyalgebra.py.</a></p>
+<!--
+HACK: I generated the HTML below by opening pyalgebra.html in Chrome, then inspecting the document, and copying the dynamically generated HTML into here. Then I manually added the hyperlinks.
+-->
+
+<pre>
+
+<code data-language="python" class="rainbow"><a href="
+javascript:Sidenote.openColumnLoud('#pyalgebra','#pya-overview','Overview')" style="color: inherit; text-decoration: inherit"># Overview</a>
+<a href="
+javascript:Sidenote.openColumnLoud('#pyalgebra','#pya-monoids','__MONOIDS__')" style="color: inherit; text-decoration: inherit">
+__MONOIDS__ = {}</a>
+
+<a href="
+javascript:Sidenote.openColumnLoud('#pyalgebra','#pya-getMonoid','getMonoid')" style="color: inherit; text-decoration: inherit"><span class="storage function">def</span> <span class="entity name function">getMonoid</span>(x, y = <span class="constant language">None</span>, monoids = __MONOIDS__):
+    if y == <span class="constant language">None</span>:
+        typ = <span class="support function python">type</span>(x)
+        if typ <span class="keyword">not</span> <span class="keyword">in</span> monoids:
+            <span class="keyword">raise</span> ValueError("%s does <span class="keyword">not</span> have an associated monoid" % x)
+        return monoids[typ]
+    else:
+        xMonoid = getMonoid(x, <span class="constant language">None</span>, monoids)
+        yMonoid = getMonoid(y, <span class="constant language">None</span>, monoids)
+        if xMonoid != yMonoid:
+            xMonStr = <span class="support function python">str</span>(x)[:80]
+            yMonStr = <span class="support function python">str</span>(y)[:80]
+            <span class="keyword">raise</span> ValueError(("Cannot get monoid for \n%s\n---and---\n%s\n" +
+                "because they don't have the same monoid") % (xMonStr, yMonStr))
+        return xMonoid
+</a>
+<a href="
+javascript:Sidenote.openColumnLoud('#pyalgebra','#pya-class-monoid','class Monoid')" style="color: inherit; text-decoration: inherit">
+<span class="storage class">class</span> <span class="entity name class">Monoid</span>(<span class="entity other inherited-class">object</span>):
+    <span class="storage function">def</span> <span class="entity name function">isNonZero</span>(<span class="variable self">self</span>, v):
+        return <span class="variable self">self</span>.zero() != v
+</a>
+<span class="storage class">class</span> <span class="entity name class">IntMonoid</span>(<span class="entity other inherited-class">Monoid</span>):
+    <span class="storage function">def</span> <span class="entity name function">zero</span>(<span class="variable self">self</span>): return 0
+    <span class="storage function">def</span> <span class="entity name function">plus</span>(<span class="variable self">self</span>, x, y, monoids = <span class="constant language">None</span>): return x + y
+__MONOIDS__[int] = IntMonoid()
+
+# Warning: plus modifies either x or y (whichever <span class="keyword">is</span> bigger)
+<span class="storage class">class</span> <span class="entity name class">DictMonoid</span>(<span class="entity other inherited-class">Monoid</span>):
+    <span class="storage function">def</span> <span class="entity name function">zero</span>(<span class="variable self">self</span>): return {}
+    <span class="storage function">def</span> <span class="entity name function">plus</span>(<span class="variable self">self</span>, x, y, monoids = __MONOIDS__):
+        if <span class="support function python">len</span>(x) &gt; <span class="support function python">len</span>(y):
+            bigger, smaller = x, y
+            bigOnLeft = <span class="constant language">True</span>
+        else:
+            bigger, smaller = y, x
+            bigOnLeft = <span class="constant language">False</span>
+        for k, v <span class="keyword">in</span> smaller.iteritems():
+            if k <span class="keyword">not</span> <span class="keyword">in</span> bigger:
+                bigger[k] = v
+            else:
+                if bigOnLeft:
+                    left = bigger[k]
+                    right = v
+                else:
+                    left = v
+                    right = bigger[k]
+
+                subMonoid = getMonoid(left, right, monoids)
+                newV = subMonoid.plus(left, right, monoids)
+                if subMonoid.isNonZero(newV):
+                    bigger[k] = newV
+                else:
+                    <span class="keyword">del</span> bigger[k]
+        return bigger
+__MONOIDS__[dict] = DictMonoid()
+
+<span class="storage class">class</span> <span class="entity name class">ListMonoid</span>(<span class="entity other inherited-class">Monoid</span>):
+    <span class="storage function">def</span> <span class="entity name function">zero</span>(<span class="variable self">self</span>): return []
+    <span class="storage function">def</span> <span class="entity name function">plus</span>(<span class="variable self">self</span>, x, y, monoids = <span class="constant language">None</span>): return x + y
+__MONOIDS__[list] = ListMonoid()
+
+<span class="storage class">class</span> <span class="entity name class">SetMonoid</span>(<span class="entity other inherited-class">Monoid</span>):
+    <span class="storage function">def</span> <span class="entity name function">zero</span>(<span class="variable self">self</span>): return <span class="support function python">set</span>()
+    <span class="storage function">def</span> <span class="entity name function">plus</span>(<span class="variable self">self</span>, x, y, monoids = <span class="constant language">None</span>): return x | y
+__MONOIDS__[set] = SetMonoid()
+
+<span class="storage function">def</span> <span class="entity name function">plus</span>(x, y, monoids = __MONOIDS__):
+    monoid = getMonoid(x, y, monoids)
+    return monoid.plus(x, y, monoids)
+
+<span class="storage function">def</span> <span class="entity name function">total</span>(items, monoids = __MONOIDS__):
+    if <span class="support function python">len</span>(items) == 0:
+        return <span class="constant language">None</span>
+    else:
+        total = items[0]
+        for item <span class="keyword">in</span> items[1:]:
+            total = plus(total, item, monoids)
+        return total
+
+
+if <span class="support magic">__name__</span> == "__main__":
+    assert 3 == plus(1, 2)
+    assert [1,2,3] == plus([1], [2, 3])
+    assert <span class="support function python">set</span>([1,2,3]) == plus(<span class="support function python">set</span>([1, 2]), <span class="support function python">set</span>([2, 3]))
+    assert {"a": 3} == plus({"a": 1}, {"a": 2})
+    assert {"a": 3, 0:1} == plus({"a": 1, 0:1}, {"a": 2})
+    assert {"a": 3, 0:1} == plus({"a": 1}, {"a": 2, 0:1})
+    assert {"a": [1,2,3], "b": 1} == plus(
+        {
+            "a": [1,2],
+            "b": 1
+        },
+        {
+            "a": [3]
+        })
+    assert {"a": [1,2,3], "b": 1} == plus(
+        {
+            "a": [1],
+        },
+        {
+            "a": [2,3],
+            "b": 1
+        })
+
+    left = {
+        "a": 1,
+        "b": ["x", "y", "z"],
+        "c": {
+            "a": <span class="support function python">set</span>([1,2,3]),
+            "b": 1
+        },
+        "q": 3,
+        "x": 5
+    }
+
+    right = {
+        "a": 3,
+        "b": [1,2,3],
+        "c": {
+            "a": <span class="support function python">set</span>([1,2,5,6]),
+            "b": 7,
+            "d": 3
+        },
+        "p": 5,
+        "x": -5
+    }
+
+    combined = {
+        "a": 4,
+        "b": ["x", "y", "z", 1, 2, 3],
+        "c": {
+            "a": <span class="support function python">set</span>([1,2,3,5,6]),
+            "b": 8,
+            "d": 3
+        },
+        "q": 3,
+        "p": 5
+    }
+
+    assert plus(left, right) == combined
+
+    assert <span class="constant language">None</span> == total([])
+    assert 1 == total([1])
+    assert [1,2,3,4,5] == total([[1], [2,3], [4,5]])
+
+    import copy
+    monoids = copy.deepcopy(__MONOIDS__)
+    <span class="storage class">class</span> <span class="entity name class">MockIntMonoid</span>(<span class="entity other inherited-class">Monoid</span>):
+        <span class="storage function">def</span> <span class="entity name function">zero</span>(<span class="variable self">self</span>): return 0
+        <span class="storage function">def</span> <span class="entity name function">plus</span>(<span class="variable self">self</span>, x, y, monoids = <span class="constant language">None</span>): return x - y
+    monoids[int] = MockIntMonoid()
+    assert {"a": 3} == plus({"a": 1}, {"a": 2})
+    assert {"a": -1} == plus({"a": 1}, {"a": 2}, monoids)
+
+</code>
+</pre>
+
+<p><link rel="stylesheet" type="text/css" href="css/solarized-light.css">
+<script src="js/rainbow.js"></script>
+<script src="js/python.js"></script></p>
+</div>
+
+<div id='sidenote'>
+<h2>Sidenote</h2>
+<p>The documentation you are reading right now is presented in <em>Sidenote format</em>. Sidenote is awesome. I hope its awesomeness is intuively obvious to you.</p>
+<p>Here are some example Sidenote documents:</p>
+<ul>
+<li><a href="http://sidenote.io">Sidenote.io</a>, the homepage for Sidenote</li>
+<li><a href="http://mikegagnon.com/beergarden">Beer Garden</a>, a well-tested system for defending web applications against <em>high-density</em> attacks</li>
+<li><a href="http://mikegagnon.com/ultra-rationality/">Ultra Rationality And The Prisoner&#8217;s Dilemma</a>, a very sketchy proof that selflessness is a winning strategy</li>
+<li><a href="http://mikegagnon.com/nsa-faq">FAQ: What You Need to Know About the NSA&#8217;s Surveillance Programs
+</a>, an excellent document explaining aspects of NSA&#8217;s surveillance programs</li>
+</ul>
+</div>
+
+<div id='pya-set'>
+<h2>Sets</h2>
+<pre><code data-language="python" class="rainbow"><span class="storage class">class</span> <span class="entity name class">SetMonoid</span>(<span class="entity other inherited-class">Monoid</span>):
+    <span class="storage function">def</span> <span class="entity name function">zero</span>(<span class="variable self">self</span>): return <span class="support function python">set</span>()
+    <span class="storage function">def</span> <span class="entity name function">plus</span>(<span class="variable self">self</span>, x, y, monoids = <span class="constant language">None</span>): return x | y
+__MONOIDS__[set] = SetMonoid()
+</code></pre>
+</div>
+
+<div id='pya-examples-comment'>
+<h2>Dummy Comment</h2>
+<p>This code doesn&#8217;t actually require a comment.</p>
+<p>I just did this to show off Better Code Review&#8217;s ability to handle recursion.</p>
+<p>Isn&#8217;t that cool? :-)</p>
+</div>
+
+<div id='pya-overview'>
+<pre><code data-language="python" class="rainbow"># Overview</code></pre>
+
+<p>pyalgebra.py shows off how simple monoids are in Python.</p>
+<h3>Note</h3>
+<p>Read <a href="javascript:Sidenote.openColumnLoud('#pya-overview','#pya-monoids-general','this explanation')">this explanation</a> if you&#8217;re not already familiar with the concept of <em>monoids</em> in general.</p>
+</div>
+
+<div id='pya-int'>
+<h2>Integers</h2>
+<pre><code data-language="python" class="rainbow"><span class="storage class">class</span> <span class="entity name class">IntMonoid</span>(<span class="entity other inherited-class">Monoid</span>):
+    <span class="storage function">def</span> <span class="entity name function">zero</span>(<span class="variable self">self</span>): return 0
+    <span class="storage function">def</span> <span class="entity name function">Plus</span>(<span class="variable self">self</span>, x, y, monoids = <span class="constant language">None</span>): return x + y
+__MONOIDS__[int] = IntMonoid()
+</code></pre>
+</div>
+
+<div id='main'>
+<p>When I worked at Twitter I often received the complaint that my code was too sophisticated and my colleauges couldn&#8217;t review it. That was definitely bullshit. They <em>could</em> review my code &#8212; they were just being lazy.</p>
+<p>But software engineers are supposed to be lazy, so we just have to accept and enjoy laziness.</p>
+<p>Although I did my best to present my code well, no one ever reviewed it, so, eventually, I quit.</p>
+<p>Today, I believe I&#8217;ve solved this problem with <em>Better Code Review</em>, a better code-review tool that makes it very enjoyable for lazy engineers to review sophisticated code.</p>
+<p>So, next time your reviewer complains that your code is too sophisticated, don&#8217;t quit your job. Just write your documentation in better-code-review format and continue making big money.</p>
+<p>The big idea behind Better Code Review is to present code and its documentation in <a href="javascript:Sidenote.openColumnLoud('#main','#sidenote','Sidenote format')">Sidenote format</a>.</p>
+<p>Check out this example: <a href="javascript:Sidenote.openColumnLoud('#main','#pyalgebra','pyalgebra.py')">pyalgebra.py</a></p>
+<p>I am using a novel <a href="javascript:Sidenote.openColumnLoud('#main','#development-method','engineering methodology')">engineering methodology</a> to develop this software.</p>
+<p>Maintainer: <a href="http://yanazendo.org">Yana Zendo</a></p>
+</div>
+
+<div id='pya-monoids-general'>
+<h2>Monoids</h2>
+<p>Monoids are one of the most beautiful abstractions in the history of <em>The Human Understanding of Computation</em>.
+Monoids are great because they allow you to eloquently and easily express your wildest computations. As a consequence of eloquence and ease, you are more likely to have fun while writing correct code. Monoid computations also tend to be efficient.</p>
+<p>Monoids are win, win, win all around.</p>
+<p>Monoids used to be very estoric. But a relatively small community of hackers at various institutions teamed up and began releasing libraries that took monoids from theory into mainstream software engineering.</p>
+<p>In Silicon Valley fashion, you are pretty hip if you know monoids. <a href="http://www.wired.com/2013/11/twitter-summingbird/">Checkout my cool friends</a>.</p>
+<p>A lot of people think that monoids are super complicated, but, in fact, they are super simple. Monoids only seem complicated because discussions of monoids usually occur at unfamiliar levels of abstraction. Also, incumbent hipsters are incentivized to keep monoids esoteric.</p>
+<p>I am betraying my hipster friends here and making monoids very simple in this documentation.</p>
+<h3>So, what are monoids?</h3>
+<p><em>Monoids</em> are the things that allow Python to perform the plus computations in these <a href="javascript:Sidenote.openColumnLoud('#pya-monoids-general','#pya-examples','examples')">examples</a>. You&#8217;re smart, so study those examples and understand monoids.</p>
+<h3>How monoids work in pyalgebra.py</h3>
+<p>Every data type has a different monoid implementation.</p>
+<p>For example, I have implemented monoids for:</p>
+<ul>
+<li><a href="javascript:Sidenote.openColumnLoud('#pya-monoids-general','#pya-int','Integers')">Integers</a></li>
+<li><a href="javascript:Sidenote.openColumnLoud('#pya-monoids-general','#pya-list','Lists')">Lists</a></li>
+<li><a href="javascript:Sidenote.openColumnLoud('#pya-monoids-general','#pya-set','Sets')">Sets</a></li>
+<li><a href="javascript:Sidenote.openColumnLoud('#pya-monoids-general','#pya-dict','Dictionaries')">Dictionaries</a></li>
+</ul>
+<p>As you can see, in pyalgebra a monoid is just a class that implements sensible <code data-language="python" class="rainbow">zero</code> and <code data-language="python" class="rainbow">plus</code> methods.</p>
+<p>All monoids subclass the <a href="javascript:Sidenote.openColumnLoud('#pya-monoids-general','#pya-class-monoid','Monoid class')">Monoid class</a>.</p>
+<h3>What&#8217;s next?</h3>
+<p>That&#8217;s all there is to know about monoids.</p>
+<p>So now you should learn about <a href="https://github.com/mikegagnon/type_class_tech_talk/blob/master/README.md">type classes</a> and become even more hip. Plus you&#8217;ll need to understand type classes if you want to understand my other projects.</p>
+</div>
+
+<div id='pya-list'>
+<h2>Lists</h2>
+<pre><code data-language="python" class="rainbow"><span class="storage class">class</span> <span class="entity name class">ListMonoid</span>(<span class="entity other inherited-class">Monoid</span>):
+    <span class="storage function">def</span> <span class="entity name function">zero</span>(<span class="variable self">self</span>): return []
+    <span class="storage function">def</span> <span class="entity name function">plus</span>(<span class="variable self">self</span>, x, y, monoids = <span class="constant language">None</span>): return x + y
+__MONOIDS__[list] = ListMonoid()
+</code></pre>
+</div>
+    </div>
+  </body>
+</html>
+
