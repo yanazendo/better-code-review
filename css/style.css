@@ -90,6 +90,16 @@ h6 {
 code {
   font-size: 80%;
 }
+code > a { /* by default, no underline */
+  text-decoration: none;
+}
+code > a:hover { /* faint dashes and the cursor change on hover */
+  border: 1px #f88 dashed;
+  cursor: pointer;
+}
+code > a:hover > span { /* underline all the spans */
+  text-decoration: underline;
+}
 a[href^="http://"]{
   color: #d44;
   text-decoration: underline;
@@ -106,7 +116,6 @@ a[href^="javascript:Sidenote.openColumnLoud"]{
   color: #44d;
   text-decoration: underline;
 }
-A:hover {text-decoration: underline}
 .headerbox {
   padding: 0px 0px 6px 10px;
   margin: 0px;
