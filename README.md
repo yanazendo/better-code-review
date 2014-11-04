@@ -14,10 +14,9 @@ To develop Better Code Review I am using a novel engineering methodology. If you
 
 ## Feature requests
 
-1. Modify the pyalgebra demo so that hyperlinks are underlined on hover
-2. Implement Better Code Review
+1. Implement Better Code Review
 
-## Regarding feature request #2
+## Regarding feature request #1
 
 I think it can be done fairly straight forwardly by developing several components:
 

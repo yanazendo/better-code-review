@@ -96,6 +96,19 @@ assert [1,2,3,4,5] == total([[1], [2,3], [4,5]])
 </code></pre>
 </div>
 
+<div id='maintainer'>
+<h2>Maintainer</h2>
+<ul>
+<li>The maintainer is responsible for managing the entire project. Everything.</li>
+<li>It is a paid position</li>
+<li>Because friendly competition is awesome, the <a href="javascript:Sidenote.openColumnLoud('#maintainer','#bdfl','BDFL')">BDFL</a> is always looking for a new maintainer for the project<ul>
+<li>If you are interested in becoming the maintainer, let the BDFL know. You should be more committed to the project than the current maintainer, and preferably also be a superior software engineer. You should then fork the project and demonstrate to the community that you would be a better maintainer. You accomplish this feat by maintaining your fork in superior fashion.</li>
+<li>It is <em>not</em> an insult to be surpassed by a new maintainer. It is a healthy event that this engineering methodology prescribes. Maintainers are committed to the project and are therefore pleased when a better maintainer comes along and relieves the current maintainer from his-or-her duties</li>
+</ul>
+</li>
+</ul>
+</div>
+
 <div id='pya-getMonoid'>
 <pre><code data-language="python" class="rainbow"><span class="storage function">def</span> <span class="entity name function">getMonoid</span>(x, y = <span class="constant language">None</span>, monoids = __MONOIDS__):</code></pre>
 
@@ -147,25 +160,18 @@ __MONOIDS__[dict] = DictMonoid()
 </code></pre>
 </div>
 
-<div id='pya-class-monoid'>
-<pre><code data-language="python" class="rainbow"><span class="storage class">class</span> <span class="entity name class">Monoid</span>(<span class="entity other inherited-class">object</span>):</code></pre>
-
-<p><code data-language="python" class="rainbow">Monoid</code> is an abstract base class.</p>
-<p>Concrete subclasses should implement sensible <code data-language="python" class="rainbow">zero</code> and <code data-language="python" class="rainbow">plus</code> methods for a specific datatype.</p>
-<p>The methods are considered sensible if, and only if:</p>
-<ol>
-<li>For any <code data-language="python" class="rainbow">x</code>, <code data-language="python" class="rainbow">y</code>, and <code data-language="python" class="rainbow">z</code> from the datatype, <pre><code data-language="python" class="rainbow">plus(plus(x, y), z) == plus(x, plus(y, z))</code></pre></li>
-<li>For any <code data-language="python" class="rainbow">x</code> from the datatype, <pre><code data-language="python" class="rainbow">plus(zero(), x) == plus(x, zero()) == x</code> </pre></li>
-</ol>
-<h3>Concrete subclasses</h3>
+<div id='bdfl'>
+<h2>Benevolent Dictator for Life</h2>
 <ul>
-<li><a href="javascript:Sidenote.openColumnLoud('#pya-class-monoid','#pya-int','IntMonoid')">IntMonoid</a></li>
-<li><a href="javascript:Sidenote.openColumnLoud('#pya-class-monoid','#pya-list','ListMonoid')">ListMonoid</a></li>
-<li><a href="javascript:Sidenote.openColumnLoud('#pya-class-monoid','#pya-set','SetMonoid')">SetMonoid</a></li>
-<li><a href="javascript:Sidenote.openColumnLoud('#pya-class-monoid','#pya-dict','DictMonoid')">DictMonoid</a></li>
+<li>The role of the BDFL is to elect the current <a href="javascript:Sidenote.openColumnLoud('#bdfl','#maintainer','maintainer')">maintainer</a> for the project</li>
+<li>The BDFL may change the maintainer of the project at any moment</li>
+<li>Additionally, The BDFL might also:<ul>
+<li>Make feature requests</li>
+<li>Help with fundraising</li>
+<li>Collaborate in other ways</li>
 </ul>
-<h3>Note</h3>
-<p>Read <a href="javascript:Sidenote.openColumnLoud('#pya-class-monoid','#pya-monoids-general','this explanation')">this explanation</a> if you&#8217;re not already familiar with the concept of <em>monoids</em> in general.</p>
+</li>
+</ul>
 </div>
 
 <div id='pya-monoids'>
@@ -180,18 +186,23 @@ __MONOIDS__[dict] = DictMonoid()
 <h2>Engineering methodology</h2>
 <p>I am developing Better Code Review using a novel engineering methodology based on my personal laziness:</p>
 <ol>
-<li>I publish the specifications for a project on github</li>
-<li>Sufficiently inspired developers collaborate by <a href="https://github.com/yanazendo/better-code-review">filing issues and submitting pull requests</a>.<ul>
-<li>If you would like me to pay you for your pull request, don&#8217;t send it right away. Rather, file an issue explaining your planned pull request and we can negotiate from there.</li>
+<li>I publish the specifications for a project on github<ul>
+<li><a href="http://bettercodereview.org">Specs</a> for Better Code Review</li>
+<li><a href="https://github.com/yanazendo/better-code-review">Github</a> for Better Code Review</li>
+</ul>
+</li>
+<li>I immediately become <a href="javascript:Sidenote.openColumnLoud('#development-method','#bdfl','Benevolent Dictator for Life')">Benevolent Dictator for Life</a> (BDFL) and the first <a href="javascript:Sidenote.openColumnLoud('#development-method','#maintainer','maintainer')">maintainer</a> for the project</li>
+<li>Sufficiently inspired developers collaborate by filing issues, submitting pull requests, and applying to become the maintainer<ul>
+<li>If you would like the maintainer to pay you for your pull request, don&#8217;t send it right away. Rather, file an issue explaining your planned pull request and negotiate from there</li>
 </ul>
 </li>
 </ol>
-<p>The specs for Better Code review are located <a href="http://bettercodereview.org">here</a>.</p>
 </div>
 
 <div id='pyalgebra'>
 <h2>Pyalgebra.py</h2>
 <p>Download <a href="https://raw.githubusercontent.com/mikegagnon/pyalgebra/master/pyalgebra.py">pyalgebra.py.</a></p>
+<p>Click a code segment to see its documentation.</p>
 <!--
 HACK: I generated the HTML below by opening pyalgebra.html in Chrome, then inspecting the document, and copying the dynamically generated HTML into here. Then I manually added the hyperlinks.
 -->
@@ -379,6 +390,27 @@ if <span class="support magic">__name__</span> == "__main__":
 <li><a href="http://mikegagnon.com/nsa-faq">FAQ: What You Need to Know About the NSA&#8217;s Surveillance Programs
 </a>, an excellent document explaining aspects of NSA&#8217;s surveillance programs</li>
 </ul>
+</div>
+
+<div id='pya-class-monoid'>
+<pre><code data-language="python" class="rainbow"><span class="storage class">class</span> <span class="entity name class">Monoid</span>(<span class="entity other inherited-class">object</span>):</code></pre>
+
+<p><code data-language="python" class="rainbow">Monoid</code> is an abstract base class.</p>
+<p>Concrete subclasses should implement sensible <code data-language="python" class="rainbow">zero</code> and <code data-language="python" class="rainbow">plus</code> methods for a specific datatype.</p>
+<p>The methods are considered sensible if, and only if:</p>
+<ol>
+<li>For any <code data-language="python" class="rainbow">x</code>, <code data-language="python" class="rainbow">y</code>, and <code data-language="python" class="rainbow">z</code> from the datatype, <pre><code data-language="python" class="rainbow">plus(plus(x, y), z) == plus(x, plus(y, z))</code></pre></li>
+<li>For any <code data-language="python" class="rainbow">x</code> from the datatype, <pre><code data-language="python" class="rainbow">plus(zero(), x) == plus(x, zero()) == x</code> </pre></li>
+</ol>
+<h3>Concrete subclasses</h3>
+<ul>
+<li><a href="javascript:Sidenote.openColumnLoud('#pya-class-monoid','#pya-int','IntMonoid')">IntMonoid</a></li>
+<li><a href="javascript:Sidenote.openColumnLoud('#pya-class-monoid','#pya-list','ListMonoid')">ListMonoid</a></li>
+<li><a href="javascript:Sidenote.openColumnLoud('#pya-class-monoid','#pya-set','SetMonoid')">SetMonoid</a></li>
+<li><a href="javascript:Sidenote.openColumnLoud('#pya-class-monoid','#pya-dict','DictMonoid')">DictMonoid</a></li>
+</ul>
+<h3>Note</h3>
+<p>Read <a href="javascript:Sidenote.openColumnLoud('#pya-class-monoid','#pya-monoids-general','this explanation')">this explanation</a> if you&#8217;re not already familiar with the concept of <em>monoids</em> in general.</p>
 </div>
 
 <div id='pya-set'>

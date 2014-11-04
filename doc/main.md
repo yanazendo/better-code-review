@@ -22,10 +22,31 @@ Maintainer: <a href="http://yanazendo.org">Yana Zendo</a>
 I am developing Better Code Review using a novel engineering methodology based on my personal laziness:
 
 1. I publish the specifications for a project on github
-2. Sufficiently inspired developers collaborate by [filing issues and submitting pull requests](https://github.com/yanazendo/better-code-review).
-    - If you would like me to pay you for your pull request, don't send it right away. Rather, file an issue explaining your planned pull request and we can negotiate from there.
+    - [Specs](http://bettercodereview.org) for Better Code Review
+    - [Github](https://github.com/yanazendo/better-code-review) for Better Code Review
+2. I immediately become [Benevolent Dictator for Life](##bdfl) (BDFL) and the first [maintainer](##maintainer) for the project
+2. Sufficiently inspired developers collaborate by filing issues, submitting pull requests, and applying to become the maintainer
+    - If you would like the maintainer to pay you for your pull request, don't send it right away. Rather, file an issue explaining your planned pull request and negotiate from there
 
-The specs for Better Code review are located [here](http://bettercodereview.org).
+
+~bdfl
+## Benevolent Dictator for Life
+
+- The role of the BDFL is to elect the current [maintainer](##maintainer) for the project
+- The BDFL may change the maintainer of the project at any moment
+- Additionally, The BDFL might also:
+    - Make feature requests
+    - Help with fundraising
+    - Collaborate in other ways
+
+~maintainer
+## Maintainer
+
+- The maintainer is responsible for managing the entire project. Everything.
+- It is a paid position
+- Because friendly competition is awesome, the [BDFL](##bdfl) is always looking for a new maintainer for the project
+    - If you are interested in becoming the maintainer, let the BDFL know. You should be more committed to the project than the current maintainer, and preferably also be a superior software engineer. You should then fork the project and demonstrate to the community that you would be a better maintainer. You accomplish this feat by maintaining your fork in superior fashion.
+    - It is *not* an insult to be surpassed by a new maintainer. It is a healthy event that this engineering methodology prescribes. Maintainers are committed to the project and are therefore pleased when a better maintainer comes along and relieves the current maintainer from his-or-her duties
 
 ~sidenote
 ## Sidenote
@@ -44,6 +65,8 @@ Here are some example Sidenote documents:
 ## Pyalgebra.py
 
 Download <a href="https://raw.githubusercontent.com/mikegagnon/pyalgebra/master/pyalgebra.py">pyalgebra.py.</a>
+
+Click a code segment to see its documentation.
 
 <!--
 HACK: I generated the HTML below by opening pyalgebra.html in Chrome, then inspecting the document, and copying the dynamically generated HTML into here. Then I manually added the hyperlinks.
