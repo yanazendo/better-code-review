@@ -41,6 +41,6 @@ I think an MVP implementation can be done straightforwardly by developing severa
 
 1. The better-code-review compiler will read in a source code project, and produce a Sidenote project as output.
   - Because I love Python and Scala, Python and Scala compilers are most appreciated.
-2. A better-code-review.js will be a Sidenote plugin. It will probably depend on sidenote.js). It will add all the features to Sidenote that are necessary to create the better-code-review reviewer experience.
+2. better-code-review.js will be a Sidenote plugin. It will probably depend on sidenote.js. It will add all the features to Sidenote that are necessary to create the better-code-review web experience.
 
 If you want to be paid for your implementation: file an issue, suggest a price, and we will negotiate from there.
